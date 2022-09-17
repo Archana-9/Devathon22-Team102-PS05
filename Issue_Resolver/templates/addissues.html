@@ -1,0 +1,95 @@
+ 
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+<div class="container mt-4">
+    
+    <div class="p-4 m-4">
+
+        
+        <div class="col-lg-5 rounded mx-auto border pt-4">
+            <div class="text-center col">
+            
+                <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Shopping_cart_with_food_clip_art_2.svg/307px-Shopping_cart_with_food_clip_art_2.svg.png" alt=""
+                class="" style="height: 80px;">
+            <!-- <hr> -->
+            <div class="display-7">Add Issues</div>
+            <hr>
+            </div>
+
+            <h3 hidden class="alert alert-light border rounded">Add Issues</h3>
+              
+
+
+            <form action="/addissues" method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {% if error %}
+                <div class="alert alert-danger" role="alert">
+                {{ error }}
+                </div>
+                {% endif %}
+
+
+                  <!--issue description -->
+                  <div class="form-group">
+                    <label for="">Issue Description</label>
+                    <input type="text"  name="description" 
+                    id="" value=""
+                     class="form-control form-control-sm" placeholder="">
+                </div>
+
+                              
+          
+      <br>
+           
+      <!-- issue category -->
+
+      <div>
+         <label for="cars">Choose a Category:</label>
+         <select name="category" id="cars">
+         
+             {% for category in categories %}
+            <option value="{{category.name}}">{{category.name}}</option>
+             {% endfor %}
+         </select>
+      </div> 
+
+      <hr>
+      <hr>
+       <!-- issue type -->
+      
+        <div>
+        <label for="cars">Choose Type of Issue:</label>
+        <select name="type" id="cars">
+        
+            {% for type in types %}
+           <option value="{{type.typename}}">{{type.typename}}</option>
+            {% endfor %}
+        </select>
+     </div>  
+
+
+                <hr>
+                <div class="form-group">
+                    <input class="btn btn-sm btn-info" type="submit" value="Add Issue ">
+                </div>
+
+                
+            </form>
+             
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+
+

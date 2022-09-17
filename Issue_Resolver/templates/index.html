@@ -1,0 +1,127 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load cart %}
+
+ 
+
+ 
+
+
+<!-- body -->
+
+
+<div class="container-fluid mt-5">
+	<div class="row">
+
+
+		<!-- filter -->
+
+		<div class="col-lg-3 mx-auto">
+			<div class="list-group">
+
+				<a href="/" class="list-group-item list-group-item-action">All Issues</a>
+
+				{% for category in categories %}
+				    <a href="/?category={{category.id}}"
+					class="list-group-item list-group-item-action">{{category.name}}</a>
+				{% endfor %}
+
+			</div>
+            
+		</div>
+
+		<!-- all products -->
+		<div id='products' class="col-lg-9 ml">
+			<div class="row mx-auto">
+				{% for issue in issues %}
+
+				<div class="card mx-auto mb-3" id="{{issue.id}}" style="width: 18rem;">
+					<!-- <img class="card-img-top" src="issue.image.url}}" alt="Card image cap"> -->
+					<div class="card-body">
+						<h5 class="card-title">{{issue.category}}</h5>
+                        <p class="card-text">{{issue.description}}</p>
+                        <p class="card-text">{{issue.date}}</p>
+                        {% if issue.status %}
+                        <p class="card-text"><small class="badge badge-success">Completed</small></p>
+                        {%else%}
+                        <p class="card-text"><small class="badge badge-warning">Pending</small></p>
+                        {% endif %}
+                         
+						
+
+                        <!-- <p class="card-text">product.description}}</p>
+						<p class="card-text">product.description}}</p> -->
+
+
+
+
+
+						<!--  product | is_in_cart:request.session.cart -->
+                        
+					</div>
+
+
+
+
+
+                    <div class="card-footer p-0 no-gutters">
+
+						{% if issue|is_in_cart:request.session.cart %}
+
+						<div class="row no-gutters">
+                           
+							<!-- Less Button   -->
+
+							<form action="/#{{issue.id}}" class="col-2 " method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='issue' value='{{issue.id}}'>
+								<input hidden type="text" name='remove' value='True'>
+								<input type="submit" value=" - " class="btn btn-block btn-success border-right">
+							</form>
+                            <!-- More Button -->
+                             
+                    
+                                  {{request.session.cart.keys|length}}
+                                  
+                           
+
+
+
+							<div class="text-center col">{{issue|cart_quantity:request.session.cart}} in Cart</div>
+
+							<form action="/#{{issue.id}}" class="col-2 " method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='issue' value='{{issue.id}}'>
+								<input type="submit" value=" + " class="btn btn-block btn-success border-left">
+							</form>
+						   </div>
+                                       <!-- Add To Cart Button -->
+						 {% else %}
+
+						<form action="/#{{issue.id}}" method="POST" class="btn-block">
+							{% csrf_token %}
+							<input hidden type="text" name='issue' value='{{issue.id}}'>
+							<input type="submit" class="float-right btn btn-block btn-success  form-control"
+								value="Add To Cart">
+						</form> 
+
+                        
+
+						{% endif %}
+
+					 
+                    </div>
+					  
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}
